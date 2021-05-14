@@ -169,7 +169,7 @@ type Node struct {
 	Camera      *uint32     `json:"camera,omitempty"`
 	Children    []uint32    `json:"children,omitempty" validate:"omitempty,unique"`
 	Skin        *uint32     `json:"skin,omitempty"`
-	Matrix      [16]float32 `json:"matrix"` // A 4x4 transformation matrix stored in column-major order.
+	Matrix      [16]float64 `json:"matrix"` // A 4x4 transformation matrix stored in column-major order.
 	Mesh        *uint32     `json:"mesh,omitempty"`
 	Rotation    [4]float32  `json:"rotation" validate:"omitempty,dive,gte=-1,lte=1"` // The node's unit quaternion rotation in the order (x, y, z, w), where w is the scalar.
 	Scale       [3]float32  `json:"scale"`
@@ -178,7 +178,7 @@ type Node struct {
 }
 
 // MatrixOrDefault returns the node matrix if it represents a valid affine matrix, else return the default one.
-func (n *Node) MatrixOrDefault() [16]float32 {
+func (n *Node) MatrixOrDefault() [16]float64 {
 	if n.Matrix == emptyMatrix {
 		return DefaultMatrix
 	}

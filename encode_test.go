@@ -166,9 +166,9 @@ func TestEncoder_Encode(t *testing.T) {
 		}}}, false},
 		{"withNodes", args{&Document{Nodes: []*Node{
 			{Extras: 8.0, Name: "n-1", Camera: Index(1), Children: []uint32{1, 2}, Skin: Index(3),
-				Matrix: [16]float32{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, Mesh: Index(15), Rotation: [4]float32{1.5, 1.3, 12, 0}, Scale: [3]float32{1, 3, 4}, Translation: [3]float32{0, 7.8, 9}, Weights: []float32{1, 3}},
+				Matrix: [16]float64{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, Mesh: Index(15), Rotation: [4]float32{1.5, 1.3, 12, 0}, Scale: [3]float32{1, 3, 4}, Translation: [3]float32{0, 7.8, 9}, Weights: []float32{1, 3}},
 			{Extras: 8.0, Name: "n-2", Camera: Index(1), Children: []uint32{1, 2}, Skin: Index(3),
-				Matrix: [16]float32{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, Mesh: Index(15), Rotation: [4]float32{0, 0, 0, 1}, Scale: [3]float32{1, 1, 1}},
+				Matrix: [16]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}, Mesh: Index(15), Rotation: [4]float32{0, 0, 0, 1}, Scale: [3]float32{1, 1, 1}},
 		}}}, false},
 		{"withSampler", args{&Document{Samplers: []*Sampler{
 			{Extras: 8.0, Name: "s_1", MagFilter: MagLinear, MinFilter: MinLinearMipMapLinear, WrapS: WrapClampToEdge, WrapT: WrapMirroredRepeat},
@@ -256,12 +256,12 @@ func TestNode_UnmarshalJSON(t *testing.T) {
 		wantErr bool
 	}{
 		{"default", new(Node), args{[]byte("{}")}, &Node{
-			Matrix:   [16]float32{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+			Matrix:   [16]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 			Rotation: [4]float32{0, 0, 0, 1},
 			Scale:    [3]float32{1, 1, 1},
 		}, false},
 		{"nodefault", new(Node), args{[]byte(`{"matrix":[1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],"rotation":[0,0,0,1],"scale":[1,1,1],"camera":0,"mesh":0,"skin":0}`)}, &Node{
-			Matrix:   [16]float32{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+			Matrix:   [16]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 			Rotation: [4]float32{0, 0, 0, 1},
 			Scale:    [3]float32{1, 1, 1},
 			Camera:   Index(0),
@@ -269,7 +269,7 @@ func TestNode_UnmarshalJSON(t *testing.T) {
 			Skin:     Index(0),
 		}, false},
 		{"nodefault", new(Node), args{[]byte(`{"matrix":[1,2,2,0,0,1,3,4,0,0,1,0,5,0,0,5],"rotation":[1,2,3,4],"scale":[2,3,4],"camera":1,"mesh":2,"skin":3}`)}, &Node{
-			Matrix:   [16]float32{1, 2, 2, 0, 0, 1, 3, 4, 0, 0, 1, 0, 5, 0, 0, 5},
+			Matrix:   [16]float64{1, 2, 2, 0, 0, 1, 3, 4, 0, 0, 1, 0, 5, 0, 0, 5},
 			Rotation: [4]float32{1, 2, 3, 4},
 			Scale:    [3]float32{2, 3, 4},
 			Camera:   Index(1),
@@ -410,17 +410,17 @@ func TestNode_MarshalJSON(t *testing.T) {
 		wantErr bool
 	}{
 		{"default", &Node{
-			Matrix:   [16]float32{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
+			Matrix:   [16]float64{1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},
 			Rotation: [4]float32{0, 0, 0, 1},
 			Scale:    [3]float32{1, 1, 1},
 		}, []byte("{}"), false},
 		{"default2", &Node{
-			Matrix:   [16]float32{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			Matrix:   [16]float64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			Rotation: [4]float32{0, 0, 0, 0},
 			Scale:    [3]float32{0, 0, 0},
 		}, []byte("{}"), false},
 		{"empty", &Node{
-			Matrix:   [16]float32{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			Matrix:   [16]float64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			Rotation: [4]float32{0, 0, 0, 0},
 			Scale:    [3]float32{0, 0, 0},
 			Camera:   Index(0),
@@ -428,7 +428,7 @@ func TestNode_MarshalJSON(t *testing.T) {
 			Mesh:     Index(0),
 		}, []byte(`{"camera":0,"skin":0,"mesh":0}`), false},
 		{"nodefault", &Node{
-			Matrix:      [16]float32{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			Matrix:      [16]float64{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 			Rotation:    [4]float32{1, 0, 0, 0},
 			Scale:       [3]float32{1, 0, 0},
 			Translation: [3]float32{1, 0, 0},

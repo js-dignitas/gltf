@@ -114,11 +114,11 @@ func TestNode_MatrixOrDefault(t *testing.T) {
 	tests := []struct {
 		name string
 		n    *Node
-		want [16]float32
+		want [16]float64
 	}{
 		{"default", &Node{Matrix: DefaultMatrix}, DefaultMatrix},
 		{"zeros", &Node{Matrix: emptyMatrix}, DefaultMatrix},
-		{"other", &Node{Matrix: [16]float32{2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2}}, [16]float32{2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2}},
+		{"other", &Node{Matrix: [16]float64{2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2}}, [16]float64{2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
